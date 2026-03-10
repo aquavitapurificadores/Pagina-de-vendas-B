@@ -62,6 +62,12 @@ export default function App() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
+  const trackContact = () => {
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'Contact');
+    }
+  };
+
   const galleryImages = [
     "https://lh3.googleusercontent.com/p/AF1QipNO4CZ-3LVQ7I6lubR4tqNrfbBGZDcMlZMNwxjJ=s1360-w1360-h1020-rw",
     "https://lh3.googleusercontent.com/p/AF1QipPtOcftU5sgTIbChNGPpuSeWb5X-o5ACZlmimDr=s1360-w1360-h1020-rw",
@@ -126,6 +132,7 @@ export default function App() {
           </div>
           <a 
             href="#diagnostico"
+            onClick={trackContact}
             className="hidden md:flex items-center gap-2 px-6 py-2.5 rounded-full bg-sapphire text-white font-medium hover:bg-sapphire/90 transition-colors"
           >
             <Calendar className="w-4 h-4" />
@@ -153,6 +160,7 @@ export default function App() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
               <a
                 href="#diagnostico"
+                onClick={trackContact}
                 className="inline-flex items-center justify-center gap-2 bg-sapphire text-white px-8 py-4 rounded-full text-lg font-medium shadow-lg hover:shadow-xl hover:bg-sapphire/90 transition-all"
               >
                 <Calendar className="w-5 h-5" />
@@ -876,6 +884,7 @@ export default function App() {
             href="https://wa.me/5554999997286?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20an%C3%A1lise%20gratuita%20da%20minha%20%C3%A1gua."
             target="_blank"
             rel="noopener noreferrer"
+            onClick={trackContact}
             className="inline-flex items-center justify-center gap-3 bg-sapphire text-white px-10 py-5 rounded-full text-lg font-medium shadow-xl hover:shadow-2xl hover:bg-sapphire/90 transition-all relative group overflow-hidden"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -971,6 +980,7 @@ export default function App() {
               href="https://wa.me/5554999997286?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20an%C3%A1lise%20gratuita%20da%20minha%20%C3%A1gua."
               target="_blank"
               rel="noopener noreferrer"
+              onClick={trackContact}
               className="flex items-center justify-center gap-2 w-full bg-sapphire text-white py-4 rounded-2xl font-medium shadow-lg active:scale-95 transition-transform"
             >
               <Calendar className="w-5 h-5" />
@@ -985,6 +995,7 @@ export default function App() {
         href="https://wa.me/5554999997286?text=Ol%C3%A1%21%20Estava%20na%20p%C3%A1gina%20da%20AquaVita%20%28Fam%C3%ADlia%29%20e%20quero%20o%20meu%20Diagn%C3%B3stico%20VIP."
         target="_blank"
         rel="noopener noreferrer"
+        onClick={trackContact}
         className="fixed bottom-6 right-6 z-50 flex items-center gap-2 bg-[#25D366] text-white font-medium px-5 py-3 rounded-full shadow-2xl shadow-green-900/30 hover:scale-105 transition-all"
       >
         <svg
