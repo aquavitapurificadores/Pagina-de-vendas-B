@@ -859,7 +859,7 @@ export default function App() {
           </p>
           
           <motion.a
-            href="https://wa.me/5511999999999"
+            href="https://wa.me/5554999997286?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20an%C3%A1lise%20gratuita%20da%20minha%20%C3%A1gua."
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-3 bg-sapphire text-white px-10 py-5 rounded-full text-lg font-medium shadow-xl hover:shadow-2xl hover:bg-sapphire/90 transition-all relative group overflow-hidden"
@@ -954,7 +954,7 @@ export default function App() {
             className="fixed bottom-0 left-0 right-0 p-4 bg-snow/90 backdrop-blur-md border-t border-gray-200 z-50 md:hidden shadow-[0_-10px_40px_rgba(0,0,0,0.1)]"
           >
             <a
-              href="https://wa.me/5511999999999"
+              href="https://wa.me/5554999997286?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20an%C3%A1lise%20gratuita%20da%20minha%20%C3%A1gua."
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full bg-sapphire text-white py-4 rounded-2xl font-medium shadow-lg active:scale-95 transition-transform"
