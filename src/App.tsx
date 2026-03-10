@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ShieldCheck, Leaf, Droplets, CheckCircle2, XCircle, ArrowRight, MessageCircle, Star, Shield, Lock, CreditCard, Award, HeartPulse, Zap, ChevronDown, Wrench, Check, ChevronLeft, ChevronRight, AlertTriangle, Microscope, Calendar, MapPin, Quote } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import Chatbot from './components/Chatbot';
 
 const googleReviews = [
   {
@@ -59,6 +60,7 @@ export default function App() {
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const galleryImages = [
@@ -142,6 +144,7 @@ export default function App() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h1 className="text-5xl md:text-7xl font-serif text-text-main leading-tight mb-6">
+              <span className="block text-xl md:text-2xl font-sans text-sapphire font-medium mb-4 tracking-wide uppercase">Purificador de Água Alcalina e Ozonizada</span>
               A Pureza da Natureza,<br className="hidden md:block" /> Agora Flui na Sua Casa.
             </h1>
             <p className="text-xl md:text-2xl text-text-muted font-light max-w-3xl mx-auto mb-8 leading-relaxed">
@@ -428,7 +431,7 @@ export default function App() {
       <section id="beneficios" className="py-24 px-6 bg-sand">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-serif mb-4">O Resultado da Verdadeira Pureza</h2>
+            <h2 className="text-4xl md:text-5xl font-serif mb-4">Benefícios da Água Alcalina e Ozonizada</h2>
             <p className="text-lg text-text-muted max-w-2xl mx-auto">
               Desenvolvido para famílias que não abrem mão do melhor em saúde e bem-estar.
             </p>
@@ -493,7 +496,7 @@ export default function App() {
       <section className="py-24 px-6 bg-snow">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-serif mb-4">O Padrão Ouro em Água</h2>
+            <h2 className="text-4xl md:text-5xl font-serif mb-4">O Padrão Ouro em Purificadores de Água</h2>
             <p className="text-lg text-text-muted max-w-2xl mx-auto">
               Entenda por que as famílias mais exigentes estão abandonando os métodos tradicionais.
             </p>
@@ -659,7 +662,8 @@ export default function App() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="min-w-[280px] md:min-w-[320px] aspect-square rounded-2xl overflow-hidden shadow-sm group snap-center relative"
+                  className="min-w-[280px] md:min-w-[320px] aspect-square rounded-2xl overflow-hidden shadow-sm group snap-center relative cursor-pointer"
+                  onClick={() => setSelectedImage(img)}
                 >
                   <img 
                     src={img} 
@@ -690,7 +694,7 @@ export default function App() {
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-serif text-text-main mb-6">Como ter a melhor água do mundo na sua casa</h2>
+            <h2 className="text-4xl md:text-5xl font-serif text-text-main mb-6">Como ter o melhor purificador de água na sua casa</h2>
             <p className="text-xl text-text-muted max-w-2xl mx-auto">
               Um processo simples, transparente e focado no seu conforto.
             </p>
@@ -919,7 +923,7 @@ export default function App() {
               <li><a href="#" className="hover:text-sapphire transition-colors">Sobre a AquaVita</a></li>
               <li><a href="#" className="hover:text-sapphire transition-colors">Tecnologia O₃</a></li>
               <li><a href="#" className="hover:text-sapphire transition-colors">Certificações</a></li>
-              <li><a href="#" className="hover:text-sapphire transition-colors">Trabalhe Conosco</a></li>
+              <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeNH6S6MH5gjOshMqxJ2n0XFKBpy1c5b_k4GA0s1y3EP1UMow/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" className="hover:text-sapphire transition-colors">Trabalhe Conosco</a></li>
             </ul>
           </div>
 
@@ -981,6 +985,47 @@ export default function App() {
         </svg>
         Fale Conosco
       </a>
+
+      {/* AI Chatbot (Desktop Only to avoid conflict with mobile WhatsApp button) */}
+      <div className="hidden md:block">
+        <Chatbot />
+      </div>
+
+      {/* Image Lightbox Modal */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm cursor-zoom-out"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative max-w-5xl w-full max-h-[90vh] flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="absolute -top-12 right-0 md:-right-12 w-10 h-10 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-colors"
+                aria-label="Fechar"
+              >
+                <XCircle className="w-6 h-6" />
+              </button>
+              <img
+                src={selectedImage}
+                alt="Instalação detalhada"
+                className="w-auto h-auto max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
