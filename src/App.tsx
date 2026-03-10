@@ -318,8 +318,13 @@ export default function App() {
               
               <div className="space-y-6">
                 <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center shrink-0">
+                  <div className="relative group w-12 h-12 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center shrink-0 cursor-help">
                     <AlertTriangle className="w-6 h-6" />
+                    {/* Tooltip */}
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 p-3 bg-slate-900 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 text-center pointer-events-none leading-relaxed">
+                      O cloro elimina bactérias, mas reage com matéria orgânica formando compostos nocivos à saúde.
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900"></div>
+                    </div>
                   </div>
                   <div>
                     <h4 className="font-serif font-medium text-lg text-slate-900 mb-1">O Paradoxo do Cloro</h4>
@@ -328,8 +333,13 @@ export default function App() {
                 </div>
                 
                 <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center shrink-0">
+                  <div className="relative group w-12 h-12 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center shrink-0 cursor-help">
                     <Microscope className="w-6 h-6" />
+                    {/* Tooltip */}
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 p-3 bg-slate-900 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 text-center pointer-events-none leading-relaxed">
+                      Estudos apontam a presença de microplásticos e metais pesados mesmo após o tratamento municipal.
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900"></div>
+                    </div>
                   </div>
                   <div>
                     <h4 className="font-serif font-medium text-lg text-slate-900 mb-1">Alerta Científico</h4>
@@ -338,8 +348,13 @@ export default function App() {
                 </div>
 
                 <div className="flex gap-4">
-                  <div className="w-12 h-12 bg-sapphire/10 text-sapphire rounded-full flex items-center justify-center shrink-0">
+                  <div className="relative group w-12 h-12 bg-sapphire/10 text-sapphire rounded-full flex items-center justify-center shrink-0 cursor-help">
                     <ShieldCheck className="w-6 h-6" />
+                    {/* Tooltip */}
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 p-3 bg-slate-900 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 text-center pointer-events-none leading-relaxed">
+                      Purificação avançada que remove 99,9% das impurezas, preservando apenas os minerais essenciais.
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-900"></div>
+                    </div>
                   </div>
                   <div>
                     <h4 className="font-serif font-medium text-lg text-slate-900 mb-1">A Solução AquaVita</h4>
