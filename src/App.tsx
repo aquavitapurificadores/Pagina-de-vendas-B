@@ -239,7 +239,8 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-snow p-8 rounded-3xl border border-gray-100"
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="bg-snow p-8 rounded-3xl border border-gray-100 hover:shadow-xl hover:shadow-red-500/5 transition-all duration-300"
             >
               <div className="w-14 h-14 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mb-6">
                 <AlertTriangle className="w-7 h-7" />
@@ -255,7 +256,8 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="bg-snow p-8 rounded-3xl border border-gray-100"
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="bg-snow p-8 rounded-3xl border border-gray-100 hover:shadow-xl hover:shadow-orange-500/5 transition-all duration-300"
             >
               <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-6">
                 <Microscope className="w-7 h-7" />
@@ -271,7 +273,8 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="bg-sapphire p-8 rounded-3xl text-white shadow-lg"
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="bg-sapphire p-8 rounded-3xl text-white shadow-lg hover:shadow-2xl hover:shadow-sapphire/20 transition-all duration-300"
             >
               <div className="w-14 h-14 bg-white/20 text-white rounded-2xl flex items-center justify-center mb-6">
                 <ShieldCheck className="w-7 h-7" />
@@ -437,8 +440,8 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-              whileHover={{ y: -5 }}
-              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50"
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300"
             >
               <div className="w-16 h-16 rounded-2xl bg-sapphire/10 flex items-center justify-center mb-8">
                 <ShieldCheck className="w-8 h-8 text-sapphire" />
@@ -454,8 +457,8 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-              whileHover={{ y: -5 }}
-              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50"
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300"
             >
               <div className="w-16 h-16 rounded-2xl bg-sapphire/10 flex items-center justify-center mb-8">
                 <Leaf className="w-8 h-8 text-sapphire" />
@@ -471,8 +474,8 @@ export default function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-              whileHover={{ y: -5 }}
-              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50"
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300"
             >
               <div className="w-16 h-16 rounded-2xl bg-sapphire/10 flex items-center justify-center mb-8">
                 <Droplets className="w-8 h-8 text-sapphire" />
@@ -549,118 +552,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Social Proof Section */}
-      <section className="py-24 px-6 bg-sand">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-serif mb-4 text-slate-800">A Escolha de Quem Valoriza a Família</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Mais de 5.000 lares já elevaram o padrão da sua água e blindaram sua saúde.
-            </p>
-          </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-              whileHover={{ y: -5 }}
-              className="bg-snow p-10 rounded-3xl shadow-sm border border-gray-100 flex flex-col"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <div className="text-sapphire/10">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14.017 21L16.41 14.592C16.634 13.912 16.75 13.208 16.75 12.5C16.75 9.462 14.288 7 11.25 7V10C12.631 10 13.75 11.119 13.75 12.5C13.75 12.623 13.741 12.744 13.724 12.863L13.593 13.75H10.25V21H14.017ZM20.767 21L23.16 14.592C23.384 13.912 23.5 13.208 23.5 12.5C23.5 9.462 21.038 7 18 7V10C19.381 10 20.5 11.119 20.5 12.5C20.5 12.623 20.491 12.744 20.474 12.863L20.343 13.75H17V21H20.767Z" />
-                  </svg>
-                </div>
-              </div>
-              <p className="text-slate-600 leading-relaxed flex-grow italic mb-6">
-                "Desde que instalamos o AquaVita com ozônio, a tranquilidade de higienizar as frutas das crianças não tem preço."
-              </p>
-              <div className="flex items-center gap-4 mt-auto">
-                <div className="w-10 h-10 rounded-full bg-sapphire text-white flex items-center justify-center font-serif font-medium text-sm">
-                  FM
-                </div>
-                <div className="font-medium text-slate-800">
-                  Família Martins
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-              whileHover={{ y: -5 }}
-              className="bg-snow p-10 rounded-3xl shadow-sm border border-gray-100 flex flex-col"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <div className="text-sapphire/10">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14.017 21L16.41 14.592C16.634 13.912 16.75 13.208 16.75 12.5C16.75 9.462 14.288 7 11.25 7V10C12.631 10 13.75 11.119 13.75 12.5C13.75 12.623 13.741 12.744 13.724 12.863L13.593 13.75H10.25V21H14.017ZM20.767 21L23.16 14.592C23.384 13.912 23.5 13.208 23.5 12.5C23.5 9.462 21.038 7 18 7V10C19.381 10 20.5 11.119 20.5 12.5C20.5 12.623 20.491 12.744 20.474 12.863L20.343 13.75H17V21H20.767Z" />
-                  </svg>
-                </div>
-              </div>
-              <p className="text-slate-600 leading-relaxed flex-grow italic mb-6">
-                "A diferença na leveza da água é imediata. Demos adeus aos galões pesados e ganhamos saúde."
-              </p>
-              <div className="flex items-center gap-4 mt-auto">
-                <div className="w-10 h-10 rounded-full bg-sapphire text-white flex items-center justify-center font-serif font-medium text-sm">
-                  RH
-                </div>
-                <div className="font-medium text-slate-800">
-                  Ricardo e Helena
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-              whileHover={{ y: -5 }}
-              className="bg-snow p-10 rounded-3xl shadow-sm border border-gray-100 flex flex-col"
-            >
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <div className="text-sapphire/10">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14.017 21L16.41 14.592C16.634 13.912 16.75 13.208 16.75 12.5C16.75 9.462 14.288 7 11.25 7V10C12.631 10 13.75 11.119 13.75 12.5C13.75 12.623 13.741 12.744 13.724 12.863L13.593 13.75H10.25V21H14.017ZM20.767 21L23.16 14.592C23.384 13.912 23.5 13.208 23.5 12.5C23.5 9.462 21.038 7 18 7V10C19.381 10 20.5 11.119 20.5 12.5C20.5 12.623 20.491 12.744 20.474 12.863L20.343 13.75H17V21H20.767Z" />
-                  </svg>
-                </div>
-              </div>
-              <p className="text-slate-600 leading-relaxed flex-grow italic mb-6">
-                "Investimento em saúde que se paga rápido. O design minimalista combinou perfeitamente com nossa cozinha."
-              </p>
-              <div className="flex items-center gap-4 mt-auto">
-                <div className="w-10 h-10 rounded-full bg-sapphire text-white flex items-center justify-center font-serif font-medium text-sm">
-                  CS
-                </div>
-                <div className="font-medium text-slate-800">
-                  Dra. Camila S.
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
 
       {/* Installation & Gallery Section */}
       <section className="py-24 px-6 bg-sand border-t border-gray-100">
