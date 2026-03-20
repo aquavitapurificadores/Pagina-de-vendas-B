@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShieldCheck, Leaf, Droplets, CheckCircle2, XCircle, ArrowRight, MessageCircle, Star, Shield, Lock, CreditCard, Award, HeartPulse, Zap, ChevronDown, Wrench, Check, ChevronLeft, ChevronRight, AlertTriangle, Microscope, Calendar, MapPin, Quote } from 'lucide-react';
+import { ShieldCheck, Leaf, Droplets, CheckCircle2, XCircle, ArrowRight, MessageCircle, Star, Shield, Lock, CreditCard, Award, HeartPulse, Zap, ChevronDown, Wrench, Check, ChevronLeft, ChevronRight, AlertTriangle, Microscope, Calendar, MapPin, Quote, Loader2, Share2, Facebook, Twitter } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const googleReviews = [
@@ -60,12 +60,24 @@ export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const [showShareMenu, setShowShareMenu] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const trackContact = () => {
     if (typeof window !== 'undefined' && (window as any).fbq) {
       (window as any).fbq('track', 'Contact');
     }
+  };
+
+  const handleCtaClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setIsRedirecting(true);
+    trackContact();
+    setTimeout(() => {
+      setIsRedirecting(false);
+      window.open("https://wa.me/5554999997286?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20an%C3%A1lise%20gratuita%20da%20minha%20%C3%A1gua.", "_blank");
+    }, 2000);
   };
 
   const galleryImages = [
@@ -151,27 +163,32 @@ export default function App() {
           >
             <h1 className="text-5xl md:text-7xl font-serif text-text-main leading-tight mb-6">
               <span className="block text-xl md:text-2xl font-sans text-sapphire font-medium mb-4 tracking-wide uppercase">Purificador de Água Alcalina e Ozonizada</span>
-              A Pureza da Natureza,<br className="hidden md:block" /> Agora Flui na Sua Casa.
+              A Blindagem de Ozônio e Alcalinidade que sua Família Merece.<br className="hidden md:block" /> Proteja e Hidrate com a Melhor Água da Nossa Região.
             </h1>
             <p className="text-xl md:text-2xl text-text-muted font-light max-w-3xl mx-auto mb-8 leading-relaxed">
               Mais do que água. Uma blindagem de <strong className="font-medium text-sapphire">Ozônio</strong> e <strong className="font-medium text-sapphire">Alcalinidade Medicinal</strong> para a saúde da sua família.
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-              <a
-                href="#diagnostico"
-                onClick={trackContact}
-                className="inline-flex items-center justify-center gap-2 bg-sapphire text-white px-8 py-4 rounded-full text-lg font-medium shadow-lg hover:shadow-xl hover:bg-sapphire/90 transition-all"
-              >
-                <Calendar className="w-5 h-5" />
-                Agendar Análise Gratuita
-              </a>
-              <a
-                href="#beneficios"
-                className="inline-flex items-center justify-center gap-2 bg-white text-sapphire border border-sapphire/20 px-8 py-4 rounded-full text-lg font-medium hover:bg-sapphire/5 transition-all"
-              >
-                Conhecer a Tecnologia
-              </a>
+            <div className="flex flex-col items-center justify-center gap-4 mb-12">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a
+                  href="#diagnostico"
+                  onClick={trackContact}
+                  className="inline-flex items-center justify-center gap-2 bg-sapphire text-white px-8 py-4 rounded-full text-lg font-medium shadow-lg hover:shadow-xl hover:bg-sapphire/90 transition-all"
+                >
+                  <Calendar className="w-5 h-5" />
+                  Agendar Análise Gratuita
+                </a>
+                <a
+                  href="#beneficios"
+                  className="inline-flex items-center justify-center gap-2 bg-white text-sapphire border border-sapphire/20 px-8 py-4 rounded-full text-lg font-medium hover:bg-sapphire/5 transition-all"
+                >
+                  Conhecer a Tecnologia
+                </a>
+              </div>
+              <p className="text-sm text-sapphire/80 font-medium mt-2">
+                Atendimento Especializado: Deixe a instalação e a manutenção por nossa conta.
+              </p>
             </div>
           </motion.div>
 
@@ -194,6 +211,56 @@ export default function App() {
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
             
+            {/* Share Button */}
+            <div className="absolute top-6 right-6 z-30">
+              <button 
+                onClick={() => setShowShareMenu(!showShareMenu)}
+                className="bg-white/10 backdrop-blur-md border border-white/20 text-white p-3 rounded-full flex items-center justify-center shadow-2xl hover:bg-white/20 transition-all"
+                aria-label="Compartilhar"
+              >
+                <Share2 className="w-5 h-5" />
+              </button>
+              
+              <AnimatePresence>
+                {showShareMenu && (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                    className="absolute top-full right-0 mt-3 bg-white rounded-2xl shadow-xl p-2 w-48 flex flex-col gap-1 border border-gray-100"
+                  >
+                    <a 
+                      href={`https://wa.me/?text=${encodeURIComponent("Conheça a AquaVita: Purificadores de Água Alcalina e Ozonizada Premium! https://landingpageaquavita.netlify.app")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl text-gray-700 transition-colors"
+                    >
+                      <MessageCircle className="w-4 h-4 text-green-500" />
+                      <span className="text-sm font-medium">WhatsApp</span>
+                    </a>
+                    <a 
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent("https://landingpageaquavita.netlify.app")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl text-gray-700 transition-colors"
+                    >
+                      <Facebook className="w-4 h-4 text-blue-600" />
+                      <span className="text-sm font-medium">Facebook</span>
+                    </a>
+                    <a 
+                      href={`https://twitter.com/intent/tweet?url=${encodeURIComponent("https://landingpageaquavita.netlify.app")}&text=${encodeURIComponent("Conheça a AquaVita: Purificadores de Água Alcalina e Ozonizada Premium!")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-xl text-gray-700 transition-colors"
+                    >
+                      <Twitter className="w-4 h-4 text-sky-500" />
+                      <span className="text-sm font-medium">Twitter</span>
+                    </a>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {/* Floating Badges */}
             <div className="absolute top-6 left-6 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2.5 rounded-2xl flex items-center gap-2 shadow-2xl transform transition-transform group-hover:scale-105">
               <Droplets className="w-4 h-4 text-sapphire-light" />
@@ -860,13 +927,10 @@ export default function App() {
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/10 mb-8">
             <Shield className="w-10 h-10 text-sapphire-light" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-serif mb-6">Garantia Sovereign</h2>
+          <h2 className="text-3xl md:text-4xl font-serif mb-6">Garantia de 1 Ano com Suporte Técnico Local</h2>
           <div className="text-lg md:text-xl text-sapphire-light font-light leading-relaxed max-w-3xl mx-auto space-y-6">
             <p>
-              Seu investimento está protegido por equipamentos robustos, construídos com componentes de primeira linha e certificação máxima de pureza. Além de 1 ano de garantia total de fábrica, nosso grande diferencial é o suporte técnico local especializado.
-            </p>
-            <p>
-              Esqueça a dor de cabeça com centrais 0800! Aqui na Região Noroeste, nós mesmos instalamos, monitoramos a vida útil do seu aparelho e avisamos você quando for a hora da manutenção preventiva. É a tecnologia das melhores fábricas com a confiança de quem está perto de você.
+              Garantia de 1 Ano com Suporte Técnico Local e Instalação Especializada na Nossa Região. Com a Aqua Vita, você não compra um aparelho na internet para se virar depois, nós cuidamos de tudo para você.
             </p>
           </div>
         </div>
@@ -880,20 +944,34 @@ export default function App() {
             Agende uma análise gratuita da água da sua residência. Nossos especialistas estão prontos para recomendar a solução perfeita, sem compromisso.
           </p>
           
-          <motion.a
-            href="https://wa.me/5554999997286?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20an%C3%A1lise%20gratuita%20da%20minha%20%C3%A1gua."
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={trackContact}
-            className="inline-flex items-center justify-center gap-3 bg-sapphire text-white px-10 py-5 rounded-full text-lg font-medium shadow-xl hover:shadow-2xl hover:bg-sapphire/90 transition-all relative group overflow-hidden"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <span className="absolute inset-0 w-full h-full bg-white/20 animate-pulse rounded-full"></span>
-            <Calendar className="w-6 h-6 relative z-10" />
-            <span className="relative z-10">Agendar Análise Gratuita</span>
-            <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-          </motion.a>
+          <div className="flex flex-col items-center justify-center">
+            <motion.a
+              href="https://wa.me/5554999997286?text=Ol%C3%A1,%20gostaria%20de%20agendar%20uma%20an%C3%A1lise%20gratuita%20da%20minha%20%C3%A1gua."
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleCtaClick}
+              className={`inline-flex items-center justify-center gap-3 bg-sapphire text-white px-10 py-5 rounded-full text-lg font-medium shadow-xl hover:shadow-2xl hover:bg-sapphire/90 transition-all relative group overflow-hidden ${isRedirecting ? 'pointer-events-none opacity-90' : ''}`}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span className="absolute inset-0 w-full h-full bg-white/20 animate-pulse rounded-full"></span>
+              {isRedirecting ? (
+                <>
+                  <Loader2 className="w-6 h-6 relative z-10 animate-spin" />
+                  <span className="relative z-10">Enviando...</span>
+                </>
+              ) : (
+                <>
+                  <Calendar className="w-6 h-6 relative z-10" />
+                  <span className="relative z-10">Agendar Análise Gratuita</span>
+                  <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
+                </>
+              )}
+            </motion.a>
+            <p className="text-sm text-sapphire/80 font-medium mt-4">
+              Atendimento Especializado: Deixe a instalação e a manutenção por nossa conta.
+            </p>
+          </div>
           
           {/* Scarcity Bonus */}
           <div className="mt-6 inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 px-4 py-2 rounded-full text-sm font-medium shadow-sm">
@@ -955,7 +1033,7 @@ export default function App() {
             <ul className="space-y-4 text-sm text-slate-500">
               <li><a href="#" className="hover:text-sapphire transition-colors">Central de Ajuda</a></li>
               <li><a href="#" className="hover:text-sapphire transition-colors">Agendar Manutenção</a></li>
-              <li><a href="#" className="hover:text-sapphire transition-colors">Garantia Sovereign</a></li>
+              <li><a href="#" className="hover:text-sapphire transition-colors">Garantia e Suporte</a></li>
               <li><a href="#" className="hover:text-sapphire transition-colors">Política de Privacidade</a></li>
             </ul>
           </div>
