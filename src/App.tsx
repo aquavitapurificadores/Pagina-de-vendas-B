@@ -163,7 +163,7 @@ export default function App() {
           >
             <h1 className="text-5xl md:text-7xl font-serif text-text-main leading-tight mb-6">
               <span className="block text-xl md:text-2xl font-sans text-sapphire font-medium mb-4 tracking-wide uppercase">Purificador de Água Alcalina e Ozonizada</span>
-              A Blindagem de Ozônio e Alcalinidade que sua Família Merece.<br className="hidden md:block" /> Proteja e Hidrate com a Melhor Água da Nossa Região.
+              A Blindagem de Ozônio e Alcalinidade que sua Família Merece.
             </h1>
             <p className="text-xl md:text-2xl text-text-muted font-light max-w-3xl mx-auto mb-8 leading-relaxed">
               Mais do que água. Uma blindagem de <strong className="font-medium text-sapphire">Ozônio</strong> e <strong className="font-medium text-sapphire">Alcalinidade Medicinal</strong> para a saúde da sua família.
