@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShieldCheck, Leaf, Droplets, CheckCircle2, XCircle, ArrowRight, MessageCircle, Star, Shield, Lock, CreditCard, Award, HeartPulse, Zap, ChevronDown, Wrench, Check, ChevronLeft, ChevronRight, AlertTriangle, Microscope, Calendar, MapPin, Quote, Loader2, Share2, Facebook, Twitter } from 'lucide-react';
+import { ShieldCheck, Leaf, Droplets, CheckCircle2, XCircle, ArrowRight, MessageCircle, Star, Shield, Lock, CreditCard, Award, HeartPulse, Zap, ChevronDown, Wrench, Check, ChevronLeft, ChevronRight, AlertTriangle, Microscope, Calendar, MapPin, Quote, Loader2, Share2, Facebook, Twitter, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const googleReviews = [
@@ -62,6 +62,7 @@ export default function App() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const trackContact = () => {
@@ -142,16 +143,118 @@ export default function App() {
             <Droplets className="w-8 h-8 text-sapphire" />
             <span className="font-serif text-2xl font-semibold tracking-tight text-sapphire">AquaVita</span>
           </div>
-          <a 
-            href="#diagnostico"
-            onClick={trackContact}
-            className="hidden md:flex items-center gap-2 px-6 py-2.5 rounded-full bg-sapphire text-white font-medium hover:bg-sapphire/90 transition-colors"
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#beneficios" className="text-slate-600 hover:text-sapphire font-medium transition-colors">Benefícios</a>
+            <a href="#tecnologia" className="text-slate-600 hover:text-sapphire font-medium transition-colors">Tecnologia</a>
+            <a href="#instalacao" className="text-slate-600 hover:text-sapphire font-medium transition-colors">Instalação</a>
+            <a href="#faq" className="text-slate-600 hover:text-sapphire font-medium transition-colors">FAQ</a>
+            <a 
+              href="#diagnostico"
+              onClick={trackContact}
+              className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-sapphire text-white font-medium hover:bg-sapphire/90 transition-colors"
+            >
+              <Calendar className="w-4 h-4" />
+              Agendar Análise
+            </a>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden p-2 text-slate-800 focus:outline-none"
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Abrir menu"
           >
-            <Calendar className="w-4 h-4" />
-            Agendar Análise Gratuita
-          </a>
+            <Menu className="w-6 h-6" />
+          </button>
         </div>
       </nav>
+
+      {/* Mobile Off-Canvas Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] md:hidden"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            
+            {/* Sidebar */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed top-0 right-0 h-full w-[80vw] max-w-sm bg-snow z-[70] shadow-2xl flex flex-col md:hidden"
+            >
+              <div className="p-6 flex items-center justify-between border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Droplets className="w-6 h-6 text-sapphire" />
+                  <span className="font-serif text-xl font-semibold text-sapphire">AquaVita</span>
+                </div>
+                <button 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-2 text-slate-500 hover:text-slate-800 bg-gray-100 rounded-full transition-colors"
+                  aria-label="Fechar menu"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <div className="flex-1 overflow-y-auto py-8 px-6 flex flex-col gap-6">
+                <a 
+                  href="#beneficios" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-lg font-medium text-slate-700 hover:text-sapphire"
+                >
+                  Benefícios
+                </a>
+                <a 
+                  href="#tecnologia" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-lg font-medium text-slate-700 hover:text-sapphire"
+                >
+                  Tecnologia
+                </a>
+                <a 
+                  href="#instalacao" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-lg font-medium text-slate-700 hover:text-sapphire"
+                >
+                  Instalação
+                </a>
+                <a 
+                  href="#faq" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-lg font-medium text-slate-700 hover:text-sapphire"
+                >
+                  Perguntas Frequentes
+                </a>
+              </div>
+              
+              <div className="p-6 border-t border-gray-100">
+                <a 
+                  href="#diagnostico"
+                  onClick={(e) => {
+                    setIsMobileMenuOpen(false);
+                    trackContact();
+                  }}
+                  className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-sapphire text-white font-medium hover:bg-sapphire/90 transition-colors"
+                >
+                  <Calendar className="w-5 h-5" />
+                  Agendar Análise
+                </a>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6 bg-snow">
@@ -275,7 +378,7 @@ export default function App() {
       </section>
 
       {/* Authority Logos Section */}
-      <section className="py-10 px-6 bg-snow border-b border-gray-50">
+      <section id="tecnologia" className="py-10 px-6 bg-snow border-b border-gray-50">
         <div className="max-w-5xl mx-auto">
           <p className="text-center text-sm font-medium text-slate-400 uppercase tracking-widest mb-8">
             Tecnologia Aprovada e Certificada por Especialistas
@@ -533,10 +636,10 @@ export default function App() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
               whileHover={{ y: -5, scale: 1.02 }}
-              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300"
+              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300 group"
             >
-              <div className="w-16 h-16 rounded-2xl bg-sapphire/10 flex items-center justify-center mb-8">
-                <ShieldCheck className="w-8 h-8 text-sapphire" />
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-sapphire to-sapphire-light flex items-center justify-center mb-8 shadow-lg shadow-sapphire/20 transform group-hover:scale-110 transition-transform duration-300">
+                <ShieldCheck className="w-10 h-10 text-white" />
               </div>
               <h3 className="text-2xl font-serif mb-4">Imunidade Blindada</h3>
               <p className="text-text-muted leading-relaxed">
@@ -550,10 +653,10 @@ export default function App() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
               whileHover={{ y: -5, scale: 1.02 }}
-              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300"
+              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300 group"
             >
-              <div className="w-16 h-16 rounded-2xl bg-sapphire/10 flex items-center justify-center mb-8">
-                <Leaf className="w-8 h-8 text-sapphire" />
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-400 flex items-center justify-center mb-8 shadow-lg shadow-emerald-500/20 transform group-hover:scale-110 transition-transform duration-300">
+                <Leaf className="w-10 h-10 text-white" />
               </div>
               <h3 className="text-2xl font-serif mb-4">Alimentos 100% Livres de Agrotóxicos</h3>
               <p className="text-text-muted leading-relaxed">
@@ -567,10 +670,10 @@ export default function App() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
               whileHover={{ y: -5, scale: 1.02 }}
-              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300"
+              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300 group"
             >
-              <div className="w-16 h-16 rounded-2xl bg-sapphire/10 flex items-center justify-center mb-8">
-                <Droplets className="w-8 h-8 text-sapphire" />
+              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-500 to-blue-400 flex items-center justify-center mb-8 shadow-lg shadow-cyan-500/20 transform group-hover:scale-110 transition-transform duration-300">
+                <Droplets className="w-10 h-10 text-white" />
               </div>
               <h3 className="text-2xl font-serif mb-4">Hidratação Celular Profunda</h3>
               <p className="text-text-muted leading-relaxed">
@@ -647,7 +750,7 @@ export default function App() {
 
 
       {/* Installation & Gallery Section */}
-      <section className="py-24 px-6 bg-sand border-t border-gray-100">
+      <section id="instalacao" className="py-24 px-6 bg-sand border-t border-gray-100">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <span className="inline-block py-1 px-3 rounded-full bg-sapphire/10 text-sapphire text-sm font-medium tracking-wide mb-4">
@@ -757,7 +860,7 @@ export default function App() {
                   <img 
                     src={img} 
                     alt={`Instalação ${idx + 1}`} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                    className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105" 
                     referrerPolicy="no-referrer" 
                     loading="lazy"
                   />
@@ -780,7 +883,7 @@ export default function App() {
       </section>
 
       {/* Como Funciona (Clareza de Ação) */}
-      <section className="py-24 px-6 bg-white">
+      <section id="como-funciona" className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-serif text-text-main mb-6">Como ter o melhor purificador de água na sua casa</h2>
@@ -866,7 +969,7 @@ export default function App() {
                   <div className="flex gap-1 mb-4 text-amber-400">
                     {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
                   </div>
-                  <p className="text-slate-600 leading-relaxed flex-grow">
+                  <p className="text-[17px] md:text-lg text-slate-700 leading-[1.8] flex-grow">
                     {review.text}
                   </p>
                 </div>
@@ -880,7 +983,7 @@ export default function App() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 px-6 bg-snow">
+      <section id="faq" className="py-24 px-6 bg-snow">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-serif mb-4 text-slate-800">Perguntas Frequentes</h2>
@@ -908,6 +1011,7 @@ export default function App() {
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="overflow-hidden"
                     >
                       <div className="px-8 pb-6 text-slate-600 leading-relaxed border-t border-gray-100/50 pt-4">
                         {faq.answer}
