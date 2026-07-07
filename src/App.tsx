@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ShieldCheck, Leaf, Droplets, CheckCircle2, XCircle, ArrowRight, MessageCircle, Star, Shield, Lock, CreditCard, Award, HeartPulse, Zap, ChevronDown, Wrench, Check, ChevronLeft, ChevronRight, AlertTriangle, Microscope, Calendar, MapPin, Quote, Loader2, Share2, Facebook, Twitter, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import EconomyCalculator from './components/EconomyCalculator';
+import WaterDiagnostic from './components/WaterDiagnostic';
 
 const googleReviews = [
   {
@@ -68,6 +70,13 @@ export default function App() {
   const trackContact = () => {
     if (typeof window !== 'undefined' && (window as any).fbq) {
       (window as any).fbq('track', 'Contact');
+    }
+  };
+
+  const trackConversionEvent = (eventName: string, payload: any) => {
+    console.log(`[Analytics] ${eventName}`, payload);
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('trackCustom', eventName, payload);
     }
   };
 
@@ -147,11 +156,12 @@ export default function App() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <a href="#beneficios" className="text-slate-600 hover:text-sapphire font-medium transition-colors">Benefícios</a>
+            <a href="#calculadora" className="text-slate-600 hover:text-sapphire font-medium transition-colors">Economia</a>
             <a href="#tecnologia" className="text-slate-600 hover:text-sapphire font-medium transition-colors">Tecnologia</a>
             <a href="#instalacao" className="text-slate-600 hover:text-sapphire font-medium transition-colors">Instalação</a>
             <a href="#faq" className="text-slate-600 hover:text-sapphire font-medium transition-colors">FAQ</a>
             <a 
-              href="#diagnostico"
+              href="#diagnostico-cep"
               onClick={trackContact}
               className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-sapphire text-white font-medium hover:bg-sapphire/90 transition-colors"
             >
@@ -218,6 +228,20 @@ export default function App() {
                   Benefícios
                 </a>
                 <a 
+                  href="#calculadora" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-lg font-medium text-slate-700 hover:text-sapphire"
+                >
+                  Calculadora de Economia
+                </a>
+                <a 
+                  href="#diagnostico-cep" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-lg font-medium text-slate-700 hover:text-sapphire"
+                >
+                  Diagnóstico por CEP
+                </a>
+                <a 
                   href="#tecnologia" 
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-lg font-medium text-slate-700 hover:text-sapphire"
@@ -242,7 +266,7 @@ export default function App() {
               
               <div className="p-6 border-t border-gray-100">
                 <a 
-                  href="#diagnostico"
+                  href="#diagnostico-cep"
                   onClick={(e) => {
                     setIsMobileMenuOpen(false);
                     trackContact();
@@ -277,7 +301,7 @@ export default function App() {
             <div className="flex flex-col items-center justify-center gap-4 mb-12">
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a
-                  href="#diagnostico"
+                  href="#diagnostico-cep"
                   onClick={trackContact}
                   className="inline-flex items-center justify-center gap-2 bg-sapphire text-white px-8 py-4 rounded-full text-lg font-medium shadow-lg hover:shadow-xl hover:bg-sapphire/90 transition-all"
                 >
@@ -749,7 +773,9 @@ export default function App() {
         </div>
       </section>
 
-
+      {/* Interactive Premium Experiences */}
+      <EconomyCalculator trackConversionEvent={trackConversionEvent} />
+      <WaterDiagnostic trackConversionEvent={trackConversionEvent} />
 
       {/* Installation & Gallery Section */}
       <section id="instalacao" className="py-24 px-6 bg-sand border-t border-gray-100">
