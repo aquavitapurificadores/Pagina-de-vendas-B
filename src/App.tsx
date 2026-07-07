@@ -292,10 +292,10 @@ export default function App() {
           >
             <h1 className="text-5xl md:text-7xl font-serif text-text-main leading-tight mb-6">
               <span className="block text-xl md:text-2xl font-sans text-sapphire font-medium mb-4 tracking-wide uppercase">Purificador de Água Alcalina e Ozonizada</span>
-              A Blindagem de Ozônio e Alcalinidade que sua Família Merece.
+              A Tecnologia de Ozônio e Alcalinidade que sua Família Merece.
             </h1>
             <p className="text-xl md:text-2xl text-text-muted font-light max-w-3xl mx-auto mb-8 leading-relaxed">
-              Mais do que água. Uma blindagem de <strong className="font-medium text-sapphire">Ozônio</strong> e <strong className="font-medium text-sapphire">Alcalinidade Medicinal</strong> para a saúde da sua família.
+              Mais do que água comum. Hidratação celular profunda com <strong className="font-medium text-sapphire">Ozônio Bactericida</strong> e <strong className="font-medium text-sapphire">pH Alcalino Mineral</strong> para a saúde e equilíbrio da sua família.
             </p>
             
             <div className="flex flex-col items-center justify-center gap-4 mb-12">
@@ -420,7 +420,7 @@ export default function App() {
             </div>
             <div className="flex items-center gap-2 text-slate-600">
               <HeartPulse className="w-6 h-6" />
-              <span className="font-serif font-semibold text-lg">Aprovado por Nutricionistas</span>
+              <span className="font-serif font-semibold text-lg">Recomendado por Especialistas</span>
             </div>
             <div className="flex items-center gap-2 text-slate-600">
               <Zap className="w-6 h-6" />
@@ -667,9 +667,9 @@ export default function App() {
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-sapphire to-sapphire-light flex items-center justify-center mb-8 shadow-lg shadow-sapphire/20 transform group-hover:scale-110 transition-transform duration-300">
                 <ShieldCheck className="w-10 h-10 text-white" />
               </div>
-              <h3 className="text-2xl font-serif mb-4">Imunidade Blindada</h3>
+              <h3 className="text-2xl font-serif mb-4">Apoio ao Bem-estar</h3>
               <p className="text-text-muted leading-relaxed">
-                Água enriquecida com minerais essenciais e pH perfeitamente alcalino, fortalecendo as defesas naturais do seu corpo a cada gole.
+                Água enriquecida com alcalinidade mineral que auxilia no equilíbrio natural do organismo e apoia o bem-estar digestivo diário.
               </p>
             </motion.div>
 
@@ -684,9 +684,9 @@ export default function App() {
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-400 flex items-center justify-center mb-8 shadow-lg shadow-emerald-500/20 transform group-hover:scale-110 transition-transform duration-300">
                 <Leaf className="w-10 h-10 text-white" />
               </div>
-              <h3 className="text-2xl font-serif mb-4">Alimentos 100% Livres de Agrotóxicos</h3>
+              <h3 className="text-2xl font-serif mb-4">Higiene Segura de Alimentos</h3>
               <p className="text-text-muted leading-relaxed">
-                O poder do Ozônio ativo elimina bactérias e neutraliza agrotóxicos de frutas e verduras em minutos, garantindo refeições verdadeiramente seguras.
+                A esterilização biológica por ozônio ativo auxilia na remoção de impurezas superficiais e na desinfecção microbiológica de verduras e frutas.
               </p>
             </motion.div>
 
@@ -701,9 +701,9 @@ export default function App() {
               <div className="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-500 to-blue-400 flex items-center justify-center mb-8 shadow-lg shadow-cyan-500/20 transform group-hover:scale-110 transition-transform duration-300">
                 <Droplets className="w-10 h-10 text-white" />
               </div>
-              <h3 className="text-2xl font-serif mb-4">Hidratação Celular Profunda</h3>
+              <h3 className="text-2xl font-serif mb-4">Hidratação Celular Avançada</h3>
               <p className="text-text-muted leading-relaxed">
-                A tecnologia de micro-clusters reduz o tamanho das moléculas da água, permitindo uma absorção até 6x mais rápida pelas suas células.
+                Água pura filtrada com alto poder de absorção pelas células, otimizando a hidratação diária do organismo de forma leve e equilibrada.
               </p>
             </motion.div>
           </div>
