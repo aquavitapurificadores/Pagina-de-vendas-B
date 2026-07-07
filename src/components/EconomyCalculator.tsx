@@ -1,27 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { Calculator, TrendingUp, DollarSign, CheckCircle2, MessageCircle, AlertTriangle } from 'lucide-react';
 import { motion } from 'motion/react';
+import { EconomyConfig } from '../types';
 
 interface EconomyCalculatorProps {
   trackConversionEvent: (eventName: string, payload: any) => void;
 }
 
-const MODELS = [
-  {
-    id: 'sovereign',
-    name: 'AquaVita Sovereign',
-    investment: 2490,
-    maintenanceAnnual: 150,
-    description: 'O padrão ouro em purificação. Sistema ozonizador inteligente com controle ativo de pH, filtragem de 7 estágios e design minimalista em aço escovado.',
-  },
-  {
-    id: 'classic',
-    name: 'AquaVita Classic',
-    investment: 1890,
-    maintenanceAnnual: 120,
-    description: 'Compacto e robusto. Ideal para famílias que buscam excelente custo-benefício, água pura ozonizada e pH alcalino perfeitamente equilibrado.',
-  }
-];
+export const ECONOMY_CONFIG: EconomyConfig = {
+  energyCostKwh: 0.95, // Tarifa média estimada no RS/Brasil (R$/kWh)
+  models: [
+    {
+      id: 'sovereign',
+      name: 'AquaVita Sovereign',
+      investment: 2490,
+      filterAnnualCost: 150, // Troca anual de refil de ozônio/carbono ativo
+      energyAnnualCost: 35,  // Custo elétrico anual (ozonização inteligente de baixo consumo)
+      description: 'O padrão ouro em purificação. Sistema ozonizador inteligente com controle ativo de pH, filtragem de 7 estágios e design minimalista em aço escovado.',
+    },
+    {
+      id: 'classic',
+      name: 'AquaVita Classic',
+      investment: 1890,
+      filterAnnualCost: 120, // Troca anual de refil
+      energyAnnualCost: 28,  // Custo elétrico anual
+      description: 'Compacto e robusto. Ideal para famílias que buscam excelente custo-benefício, água pura ozonizada e pH alcalino perfeitamente equilibrado.',
+    }
+  ]
+};
+
+const MODELS = ECONOMY_CONFIG.models;
 
 export default function EconomyCalculator({ trackConversionEvent }: EconomyCalculatorProps) {
   const [selectedModel, setSelectedModel] = useState(MODELS[0]);
@@ -33,9 +41,14 @@ export default function EconomyCalculator({ trackConversionEvent }: EconomyCalcu
   const weeklyCurrentCost = gallonsPerWeek * pricePerGallon;
   const annualCurrentCost = weeklyCurrentCost * 52;
   const monthlyCurrentCost = Math.max(1, annualCurrentCost / 12);
-  const paybackMonths = Number((selectedModel.investment / monthlyCurrentCost).toFixed(1));
-  const secondYearSavings = annualCurrentCost - selectedModel.maintenanceAnnual;
-  const fiveYearsSavings = (annualCurrentCost * 5) - selectedModel.investment - (selectedModel.maintenanceAnnual * 4);
+  
+  // Real savings and payback calculations incorporating electricity & filter replacements:
+  const monthlyOperationalCost = selectedModel.energyAnnualCost / 12;
+  const monthlySavings = Math.max(1, monthlyCurrentCost - monthlyOperationalCost);
+  const paybackMonths = Number((selectedModel.investment / monthlySavings).toFixed(1));
+  
+  const secondYearSavings = annualCurrentCost - (selectedModel.filterAnnualCost + selectedModel.energyAnnualCost);
+  const fiveYearsSavings = (annualCurrentCost * 5) - selectedModel.investment - (selectedModel.energyAnnualCost * 5) - (selectedModel.filterAnnualCost * 4);
 
   // Trigger analytics when calculator settings change (debounced)
   useEffect(() => {
@@ -249,7 +262,7 @@ export default function EconomyCalculator({ trackConversionEvent }: EconomyCalcu
                     <p className="text-lg font-serif font-bold text-white leading-snug">
                       <span className="text-cyan-200 font-mono">R$ {secondYearSavings.toLocaleString('pt-BR', { maximumFractionDigits: 0 })}</span> economizados anualmente!
                     </p>
-                    <span className="text-xs text-blue-200/80 block mt-0.5">Descontando o valor da troca anual do refil (R$ {selectedModel.maintenanceAnnual}).</span>
+                    <span className="text-xs text-blue-200/80 block mt-0.5">Descontando a manutenção anual (Refil: R$ {selectedModel.filterAnnualCost} + Energia: R$ {selectedModel.energyAnnualCost}).</span>
                   </div>
                 </div>
 

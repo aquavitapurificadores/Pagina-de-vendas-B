@@ -1,9 +1,11 @@
 export interface EconomyConfig {
+  energyCostKwh: number;
   models: {
     id: string;
     name: string;
     investment: number;
-    maintenanceAnnual: number;
+    filterAnnualCost: number;
+    energyAnnualCost: number;
     description: string;
   }[];
 }
