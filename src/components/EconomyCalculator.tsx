@@ -364,8 +364,23 @@ export default function EconomyCalculator({ trackConversionEvent }: EconomyCalcu
                   </div>
                   
                   <div className="text-xs text-blue-200 leading-relaxed pt-2 border-t border-white/5">
-                    No primeiro ano, seu investimento se aproxima do que você já gasta anualmente de forma recorrente com galões e garrafas. A partir da aquisição do equipamento, você tem água purificada ilimitada disponível e deixa de depender de logística comercial externa.
+                    No primeiro ano, seu investimento se aproxima do que você já gasta anualmente de forma recorrente com galões e garrafas. A partir da aquisição do equipamento, você tem água purificada disponível de forma muito mais prática.
                   </div>
+                </div>
+
+                {/* Premissas da Simulação Block */}
+                <div className="bg-white/5 rounded-2xl p-4 border border-white/10 text-left space-y-2">
+                  <span className="text-[10px] font-bold text-cyan-200 uppercase tracking-wider block">PREMISSAS DA SUA SIMULAÇÃO</span>
+                  <ul className="text-xs text-blue-200/90 space-y-1.5 list-disc pl-4 font-medium">
+                    <li>{gallonsPerWeek} {gallonsPerWeek === 1 ? 'galão' : 'galões'} por semana</li>
+                    <li>R$ {pricePerGallon.toFixed(2)} por galão</li>
+                    <li>R$ {monthlyBottledWaterCost.toFixed(2)}/mês em garrafas</li>
+                    <li>Modelo: {selectedModel.name}</li>
+                    <li>Investimento: {formatBRLDecimals(selectedModel.investment)}</li>
+                  </ul>
+                  <span className="text-[9px] text-blue-200/60 block pt-1 font-normal">
+                    Estimativa baseada exclusivamente nos valores informados pelo visitante.
+                  </span>
                 </div>
                 
                 <div className="text-[11px] text-blue-200/70 italic leading-relaxed pt-2">

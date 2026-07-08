@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShieldCheck, Leaf, Droplets, CheckCircle2, XCircle, ArrowRight, MessageCircle, Star, Shield, Lock, CreditCard, Award, HeartPulse, Zap, ChevronDown, Wrench, Check, ChevronLeft, ChevronRight, AlertTriangle, Microscope, Calendar, MapPin, Quote, Loader2, Share2, Facebook, Twitter, Menu, X } from 'lucide-react';
+import { ShieldCheck, Leaf, Droplets, CheckCircle2, XCircle, ArrowRight, MessageCircle, Star, Shield, Lock, CreditCard, Award, HeartPulse, Zap, ChevronDown, Wrench, Check, ChevronLeft, ChevronRight, AlertTriangle, Microscope, Calendar, MapPin, Quote, Loader2, Share2, Facebook, Twitter, Menu, X, TrendingUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import EconomyCalculator from './components/EconomyCalculator';
 import WaterDiagnostic from './components/WaterDiagnostic';
@@ -65,6 +65,8 @@ export default function App() {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const trackContact = () => {
@@ -130,16 +132,44 @@ export default function App() {
 
   const faqs = [
     {
-      question: "A instalação exige quebrar a parede ou bancada?",
-      answer: "Absolutamente não. Nossos especialistas realizam uma instalação limpa, rápida e preservam 100% da estética da sua cozinha."
+      question: "Como funciona a purificação por Ozônio?",
+      answer: "A ozonização ativa adiciona gás ozônio à água de forma temporária. Trata-se de um recurso tecnológico complementar disponível em modelos específicos, voltado para desinfecção auxiliar de alimentos, superfícies ou copos de água, conforme as instruções do manual do fabricante."
     },
     {
-      question: "Como funciona a manutenção e a troca de refil?",
-      answer: "O sistema é inteligente e você não precisa se preocupar. A durabilidade média é de 12 meses e nossa equipe avisa você quando for o momento ideal."
+      question: "O que é e como funciona a alcalinização da água?",
+      answer: "A alcalinização ocorre através de minerais presentes no refil de filtragem, que elevam o pH da água. O resultado final e a variação do pH dependem diretamente das características físico-químicas e do pH da água de entrada fornecida pela rede pública."
     },
     {
-      question: "Por que é mais seguro que a água mineral de galão?",
-      answer: "Galões de plástico liberam Bisfenol (BPA) e a água parada prolifera bactérias. O AquaVita Sovereign entrega água corrente, esterilizada por Ozônio (O3) e com pH alcalino."
+      question: "Qual é o valor dos equipamentos?",
+      answer: "A AquaVita oferece soluções a partir de R$ 2.100,00 (modelo GIOM Branco) até R$ 3.490,00 (modelo CPD23 Ozon Premium). Os valores variam conforme a tecnologia de refrigeração, presença de ozonizador ativo e acabamento do purificador."
+    },
+    {
+      question: "A AquaVita cobra pela instalação?",
+      answer: "A entrega e a instalação básica padrão são gratuitas e realizadas por nossa equipe técnica especializada em Salvador das Missões e região, garantindo o correto funcionamento e a vedação do sistema."
+    },
+    {
+      question: "Com que frequência devo trocar o refil/filtro?",
+      answer: "A recomendação padrão de troca do refil de filtragem é a cada 3.000 litros ou 6 meses de uso, o que ocorrer primeiro. Essa frequência pode variar conforme o volume de utilização e as condições da água fornecida localmente."
+    },
+    {
+      question: "Os purificadores gastam muita energia elétrica?",
+      answer: "Os modelos básicos sem refrigeração não utilizam energia elétrica. Os modelos com refrigeração ou ozonização possuem baixo consumo de energia, compatível com eletrodomésticos eficientes de pequeno porte."
+    },
+    {
+      question: "Posso instalar o purificador em qualquer torneira?",
+      answer: "Nossos técnicos realizam uma avaliação prévia da pressão e do ponto hidráulico. A instalação pode ser feita diretamente em um ponto de água exclusivo ou derivado de torneiras de parede e bancadas adequadas."
+    },
+    {
+      question: "Qual é o prazo de garantia dos aparelhos?",
+      answer: "Todos os purificadores AquaVita contam com garantia legal e contratual de 1 ano contra defeitos de fabricação, além de suporte técnico presencial prestado diretamente por nossa equipe especializada."
+    },
+    {
+      question: "A água ozonizada serve para curar doenças?",
+      answer: "Não. A água purificada ou ozonizada não possui propriedades terapêuticas ou medicinais, não substitui tratamentos médicos e não tem a finalidade de tratar, curar ou prevenir qualquer tipo de patologia ou sintoma."
+    },
+    {
+      question: "Como faço para agendar a visita de um especialista?",
+      answer: "Você pode solicitar o agendamento de forma simples clicando em qualquer botão de contato ou WhatsApp da página. Nossa equipe entrará em contato para marcar o dia e horário que melhor atendam à sua rotina."
     }
   ];
 
@@ -335,7 +365,7 @@ export default function App() {
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                title="AquaVita Sovereign"
+                title="AquaVita Purificadores"
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
@@ -656,54 +686,111 @@ export default function App() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
+            {/* Card 1 */}
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
               whileHover={{ y: -5, scale: 1.02 }}
-              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300 group"
+              className="bg-snow p-8 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300 group"
             >
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-sapphire to-sapphire-light flex items-center justify-center mb-8 shadow-lg shadow-sapphire/20 transform group-hover:scale-110 transition-transform duration-300">
-                <ShieldCheck className="w-10 h-10 text-white" />
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-sapphire to-sapphire-light flex items-center justify-center mb-6 shadow-lg shadow-sapphire/20 transform group-hover:scale-110 transition-transform duration-300">
+                <HeartPulse className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-serif mb-4">Apoio ao Bem-estar</h3>
-              <p className="text-text-muted leading-relaxed">
-                Água enriquecida com alcalinidade mineral que auxilia no equilíbrio natural do organismo e apoia o bem-estar digestivo diário.
+              <h3 className="text-xl font-serif font-bold mb-3 text-slate-800">Bem-Estar no Dia a Dia</h3>
+              <p className="text-text-muted text-sm leading-relaxed">
+                Uma experiência de água pensada para famílias que valorizam qualidade, sabor e praticidade.
               </p>
             </motion.div>
 
+            {/* Card 2 */}
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
               whileHover={{ y: -5, scale: 1.02 }}
-              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300 group"
+              className="bg-snow p-8 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300 group"
             >
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-400 flex items-center justify-center mb-8 shadow-lg shadow-emerald-500/20 transform group-hover:scale-110 transition-transform duration-300">
-                <Leaf className="w-10 h-10 text-white" />
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-400 flex items-center justify-center mb-6 shadow-lg shadow-emerald-500/20 transform group-hover:scale-110 transition-transform duration-300">
+                <TrendingUp className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-serif mb-4">Higiene Segura de Alimentos</h3>
-              <p className="text-text-muted leading-relaxed">
-                A esterilização biológica por ozônio ativo auxilia na remoção de impurezas superficiais e na desinfecção microbiológica de verduras e frutas.
+              <h3 className="text-xl font-serif font-bold mb-3 text-slate-800">Tecnologia de Alcalinização</h3>
+              <p className="text-text-muted text-sm leading-relaxed">
+                Disponível em modelos específicos, conforme a tecnologia e as características da água de entrada.
               </p>
             </motion.div>
 
+            {/* Card 3 */}
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
               whileHover={{ y: -5, scale: 1.02 }}
-              className="bg-snow p-10 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300 group"
+              className="bg-snow p-8 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300 group"
             >
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-500 to-blue-400 flex items-center justify-center mb-8 shadow-lg shadow-cyan-500/20 transform group-hover:scale-110 transition-transform duration-300">
-                <Droplets className="w-10 h-10 text-white" />
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-400 flex items-center justify-center mb-6 shadow-lg shadow-cyan-500/20 transform group-hover:scale-110 transition-transform duration-300">
+                <Zap className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-serif mb-4">Hidratação Celular Avançada</h3>
-              <p className="text-text-muted leading-relaxed">
-                Água pura filtrada com alto poder de absorção pelas células, otimizando a hidratação diária do organismo de forma leve e equilibrada.
+              <h3 className="text-xl font-serif font-bold mb-3 text-slate-800">Ozônio em Modelos Compatíveis</h3>
+              <p className="text-text-muted text-sm leading-relaxed">
+                Equipamentos compatíveis oferecem aplicações adicionais de ozonização conforme especificações e orientações do fabricante.
+              </p>
+            </motion.div>
+
+            {/* Card 4 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="bg-snow p-8 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300 group"
+            >
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-purple-400 flex items-center justify-center mb-6 shadow-lg shadow-purple-500/20 transform group-hover:scale-110 transition-transform duration-300">
+                <Droplets className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-serif font-bold mb-3 text-slate-800">Experiência de Sabor</h3>
+              <p className="text-text-muted text-sm leading-relaxed">
+                Sistemas adequados de filtragem podem reduzir características indesejáveis de sabor e odor conforme a água de entrada e o modelo.
+              </p>
+            </motion.div>
+
+            {/* Card 5 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="bg-snow p-8 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300 group"
+            >
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-500 to-amber-400 flex items-center justify-center mb-6 shadow-lg shadow-amber-500/20 transform group-hover:scale-110 transition-transform duration-300">
+                <Calendar className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-serif font-bold mb-3 text-slate-800">Praticidade Todos os Dias</h3>
+              <p className="text-text-muted text-sm leading-relaxed">
+                Menos dependência da rotina de compra, transporte e armazenamento de galões.
+              </p>
+            </motion.div>
+
+            {/* Card 6 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+              whileHover={{ y: -5, scale: 1.02 }}
+              className="bg-snow p-8 rounded-3xl shadow-soft border border-gray-50 hover:shadow-xl hover:shadow-sapphire/10 transition-shadow duration-300 group"
+            >
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-rose-500 to-rose-400 flex items-center justify-center mb-6 shadow-lg shadow-rose-500/20 transform group-hover:scale-110 transition-transform duration-300">
+                <Wrench className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-serif font-bold mb-3 text-slate-800">Tecnologia para Cada Rotina</h3>
+              <p className="text-text-muted text-sm leading-relaxed">
+                Diferentes modelos permitem escolher uma solução alinhada às prioridades da família.
               </p>
             </motion.div>
           </div>
@@ -1140,8 +1227,11 @@ export default function App() {
               <Droplets className="w-8 h-8 text-sapphire" />
               <span className="font-serif text-2xl font-semibold tracking-tight text-sapphire">AquaVita</span>
             </div>
-            <p className="text-slate-500 text-sm leading-relaxed max-w-sm mb-8">
+            <p className="text-slate-500 text-sm leading-relaxed max-w-sm mb-4">
               Elevando o padrão de saúde das famílias brasileiras através da purificação avançada por ozônio e alcalinidade perfeita.
+            </p>
+            <p className="text-slate-400 text-xs leading-relaxed max-w-sm mb-6 font-medium">
+              R. do Comércio, 843 - Centro, Salvador das Missões - RS, CEP 97940-000
             </p>
             <div className="flex items-center gap-4 text-slate-400">
               <Shield className="w-5 h-5" />
@@ -1153,9 +1243,9 @@ export default function App() {
           <div>
             <h4 className="font-medium text-slate-800 mb-6">Institucional</h4>
             <ul className="space-y-4 text-sm text-slate-500">
-              <li><a href="#" className="hover:text-sapphire transition-colors">Sobre a AquaVita</a></li>
-              <li><a href="#" className="hover:text-sapphire transition-colors">Tecnologia O₃</a></li>
-              <li><a href="#" className="hover:text-sapphire transition-colors">Certificações</a></li>
+              <li><a href="#beneficios" className="hover:text-sapphire transition-colors">Sobre a AquaVita</a></li>
+              <li><a href="#tecnologia" className="hover:text-sapphire transition-colors">Tecnologia O₃</a></li>
+              <li><a href="#diagnostico-cep" className="hover:text-sapphire transition-colors">Diagnóstico</a></li>
               <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSeNH6S6MH5gjOshMqxJ2n0XFKBpy1c5b_k4GA0s1y3EP1UMow/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" className="hover:text-sapphire transition-colors">Trabalhe Conosco</a></li>
             </ul>
           </div>
@@ -1163,17 +1253,18 @@ export default function App() {
           <div>
             <h4 className="font-medium text-slate-800 mb-6">Suporte</h4>
             <ul className="space-y-4 text-sm text-slate-500">
-              <li><a href="#" className="hover:text-sapphire transition-colors">Central de Ajuda</a></li>
-              <li><a href="#" className="hover:text-sapphire transition-colors">Agendar Manutenção</a></li>
-              <li><a href="#" className="hover:text-sapphire transition-colors">Garantia e Suporte</a></li>
-              <li><a href="#" className="hover:text-sapphire transition-colors">Política de Privacidade</a></li>
+              <li><a href="#faq" className="hover:text-sapphire transition-colors">Central de Ajuda</a></li>
+              <li><a href="https://wa.me/5554999997286" target="_blank" rel="noopener noreferrer" className="hover:text-sapphire transition-colors">Agendar Manutenção</a></li>
+              <li><a href="#faq" className="hover:text-sapphire transition-colors">Garantia e Suporte</a></li>
+              <li><button onClick={() => setShowPrivacyModal(true)} className="hover:text-sapphire transition-colors text-left focus:outline-none">Política de Privacidade</button></li>
+              <li><button onClick={() => setShowTermsModal(true)} className="hover:text-sapphire transition-colors text-left focus:outline-none">Termos de Uso</button></li>
             </ul>
           </div>
         </div>
         
         <div className="max-w-7xl mx-auto pt-8 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
           <p>&copy; {new Date().getFullYear()} AquaVita Purificadores. Todos os direitos reservados.</p>
-          <p>CNPJ: 42.123.456/0001-89 | Ambiente 100% Seguro</p>
+          <p>CNPJ: 47.921.034/0001-82 | R. do Comércio, 843, Salvador das Missões - RS</p>
         </div>
       </footer>
 
@@ -1208,6 +1299,117 @@ export default function App() {
                 className="w-auto h-auto max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
                 referrerPolicy="no-referrer"
               />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Privacy Policy Modal */}
+      <AnimatePresence>
+        {showPrivacyModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowPrivacyModal(false)}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm cursor-pointer"
+          >
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 50, opacity: 0 }}
+              className="bg-white rounded-3xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto cursor-default shadow-2xl border border-slate-100"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                <h3 className="text-2xl font-serif font-bold text-slate-800">Política de Privacidade</h3>
+                <button
+                  onClick={() => setShowPrivacyModal(false)}
+                  className="p-1.5 hover:bg-slate-100 rounded-full transition-colors"
+                >
+                  <X className="w-6 h-6 text-slate-500" />
+                </button>
+              </div>
+              <div className="space-y-4 text-slate-600 text-sm leading-relaxed">
+                <p>
+                  A <strong>AquaVita Purificadores</strong> valoriza a segurança e a privacidade dos seus dados pessoais. Esta política descreve como coletamos, armazenamos e tratamos suas informações de acordo com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018).
+                </p>
+                <h4 className="font-bold text-slate-800 text-base mt-4">1. Coleta e Finalidade dos Dados</h4>
+                <p>
+                  Coletamos os dados fornecidos voluntariamente por você no site (Nome e Telefone/WhatsApp) para as seguintes finalidades exclusivas:
+                </p>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Cálculo de estimativa de economia e viabilidade de ROI personalizado;</li>
+                  <li>Realização da triagem indicativa de parâmetros de água baseado em sua localidade (CEP);</li>
+                  <li>Atendimento e agendamento de visita técnica para análise gratuita de água na sua residência;</li>
+                  <li>Contato consultivo sobre as tecnologias dos nossos produtos.</li>
+                </ul>
+                <h4 className="font-bold text-slate-800 text-base mt-4">2. Compartilhamento de Dados</h4>
+                <p>
+                  Seus dados pessoais são confidenciais e de uso exclusivo da AquaVita. Nós não vendemos, alugamos ou compartilhamos suas informações com terceiros, parceiros de marketing ou outras empresas estranhas à operação técnica.
+                </p>
+                <h4 className="font-bold text-slate-800 text-base mt-4">3. Direitos do Usuário e Exclusão</h4>
+                <p>
+                  De acordo com a LGPD, você possui o direito de confirmar a existência de tratamento, acessar seus dados, corrigir dados incompletos ou inexatos, e revogar o seu consentimento a qualquer momento.
+                </p>
+                <p className="bg-slate-50 p-4 rounded-xl border border-slate-200/60 font-medium text-slate-700">
+                  Para solicitar a exclusão definitiva ou alteração dos seus dados de contato dos nossos sistemas, basta entrar em contato a qualquer momento pelo e-mail <strong>privacidade@aquavita.com.br</strong> ou diretamente pelo nosso WhatsApp oficial.
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Terms of Use Modal */}
+      <AnimatePresence>
+        {showTermsModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowTermsModal(false)}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm cursor-pointer"
+          >
+            <motion.div
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 50, opacity: 0 }}
+              className="bg-white rounded-3xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto cursor-default shadow-2xl border border-slate-100"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                <h3 className="text-2xl font-serif font-bold text-slate-800">Termos de Uso</h3>
+                <button
+                  onClick={() => setShowTermsModal(false)}
+                  className="p-1.5 hover:bg-slate-100 rounded-full transition-colors"
+                >
+                  <X className="w-6 h-6 text-slate-500" />
+                </button>
+              </div>
+              <div className="space-y-4 text-slate-600 text-sm leading-relaxed">
+                <p>
+                  Bem-vindo ao site institucional da <strong>AquaVita Purificadores</strong>. Ao acessar e utilizar esta página, você concorda em cumprir e sujeitar-se aos seguintes termos e condições de uso.
+                </p>
+                <h4 className="font-bold text-slate-800 text-base mt-4">1. Uso das Ferramentas Interativas</h4>
+                <p>
+                  As simulações fornecidas pela Calculadora de Economia e pelo Diagnóstico de Água por CEP são estimativas indicativas com fins educativos e de triagem preliminar baseadas estritamente nos dados que o usuário insere. 
+                </p>
+                <p>
+                  As informações de triagem não substituem, de forma alguma, análises laboratoriais físico-químicas rigorosas ou avaliações profissionais específicas da sua rede local.
+                </p>
+                <h4 className="font-bold text-slate-800 text-base mt-4">2. Limitação de Responsabilidade</h4>
+                <p>
+                  Os purificadores e sistemas ozonizadores fornecidos pela AquaVita destinam-se ao tratamento de água potável previamente tratada pela concessionária local ou em conformidade com os parâmetros de potabilidade. Os produtos não possuem finalidade terapêutica, curativa, médica ou de tratamento farmacêutico.
+                </p>
+                <h4 className="font-bold text-slate-800 text-base mt-4">3. Alterações e Atualizações</h4>
+                <p>
+                  A AquaVita reserva-se o direito de alterar, suspender ou descontinuar qualquer aspecto deste site ou produtos apresentados, incluindo preços e premissas de simulação, a qualquer momento e sem aviso prévio.
+                </p>
+                <p>
+                  Dúvidas ou esclarecimentos adicionais podem ser obtidos em nossa central de atendimento pelo telefone de contato ou WhatsApp oficial.
+                </p>
+              </div>
             </motion.div>
           </motion.div>
         )}

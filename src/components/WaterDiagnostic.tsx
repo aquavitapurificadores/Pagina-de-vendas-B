@@ -9,51 +9,62 @@ interface WaterDiagnosticProps {
 const QUESTIONS = [
   {
     id: 1,
-    text: 'Qual a fonte principal de água que sua família bebe e cozinha atualmente?',
+    text: 'Qual é a principal origem da água da sua casa?',
     options: [
-      { text: 'Água direta da torneira (abastecimento público)', weight: 18, key: 'tap' },
-      { text: 'Galões retornáveis de plástico de 20 litros', weight: 14, key: 'gallon' },
-      { text: 'Filtro comum de barro ou torneira com refil simples', weight: 10, key: 'simple_filter' },
-      { text: 'Poço artesiano, cisterna ou captação de fonte local', weight: 22, key: 'well' },
+      { text: 'Rede pública', weight: 5, key: 'publicNetwork' },
+      { text: 'Poço artesiano', weight: 18, key: 'artesianWell' },
+      { text: 'Nascente', weight: 15, key: 'spring' },
+      { text: 'Não sei', weight: 12, key: 'unknown' },
     ],
   },
   {
     id: 2,
-    text: 'Com que frequência você ou alguém de sua família percebe gosto, cheiro ou coloração na água?',
+    text: 'Você percebe cheiro ou gosto forte de cloro?',
     options: [
-      { text: 'Frequentemente (várias vezes ao mês ou toda semana)', weight: 25, key: 'often' },
-      { text: 'Às vezes (principalmente após chuvas fortes ou obras na rua)', weight: 16, key: 'sometimes' },
-      { text: 'Raramente ou quase nunca notamos alterações', weight: 6, key: 'rarely' },
+      { text: 'Nunca', weight: 0, key: 'never' },
+      { text: 'Às vezes', weight: 5, key: 'sometimes' },
+      { text: 'Frequentemente', weight: 10, key: 'frequently' },
     ],
   },
   {
     id: 3,
-    text: 'Alguém na sua casa sofre com problemas gastrointestinais frequentes, azia, gastrite ou pele/cabelos excessivamente secos?',
+    text: 'A água apresenta alteração visual?',
     options: [
-      { text: 'Sim, problemas digestivos ou sensibilidade estomacal recorrente', weight: 22, key: 'stomach' },
-      { text: 'Sim, pele e cabelos extremamente ressecados, mesmo usando cremes', weight: 16, key: 'dryness' },
-      { text: 'Ambos ou múltiplos sintomas ocorrem com certa frequência', weight: 25, key: 'both' },
-      { text: 'Não, todos em casa estão saudáveis e sem queixas', weight: 0, key: 'none' },
+      { text: 'Sempre cristalina', weight: 0, key: 'crystalClear' },
+      { text: 'Às vezes turva', weight: 8, key: 'sometimesCloudy' },
+      { text: 'Frequentemente turva', weight: 15, key: 'frequentlyCloudy' },
+      { text: 'Deixa sedimentos', weight: 18, key: 'sediments' },
     ],
   },
   {
     id: 4,
-    text: 'Como os vegetais, verduras e frutas são higienizados na sua casa antes do consumo?',
+    text: 'Quando a caixa d’água foi higienizada?',
     options: [
-      { text: 'Lavados apenas em água corrente de torneira comum', weight: 20, key: 'only_water' },
-      { text: 'Deixamos de molho com vinagre, bicarbonato ou água sanitária comum', weight: 10, key: 'chemical_soak' },
-      { text: 'Lavados com água previamente filtrada de galão ou jarra simples', weight: 14, key: 'filtered_water' },
-      { text: 'Lavados com água alcalina/ozonizada (gostaríamos de ter essa tecnologia)', weight: 5, key: 'desire_ozone' },
+      { text: 'Nos últimos 6 meses', weight: 0, key: 'lastSixMonths' },
+      { text: 'Há mais de 6 meses', weight: 7, key: 'moreThanSixMonths' },
+      { text: 'Não sei', weight: 12, key: 'unknown' },
+      { text: 'Não utilizo caixa d’água', weight: 2, key: 'noTank' },
     ],
   },
   {
     id: 5,
-    text: 'Qual o principal fator de preocupação que motivou você a avaliar a qualidade da água hoje?',
+    text: 'Você percebe algum destes sinais?',
     options: [
-      { text: 'Presença oculta de microplásticos, cloro residual e agrotóxicos', weight: 18, key: 'contaminants' },
-      { text: 'O cansaço físico, peso e custo recorrente de galões plásticos', weight: 12, key: 'effort' },
-      { text: 'Preocupação com encanamentos antigos e caixas d\'água da região', weight: 16, key: 'infrastructure' },
-      { text: 'Desejo de investir em saúde preventiva de alta performance', weight: 5, key: 'prevention' },
+      { text: 'Gosto metálico', weight: 4, key: 'metallic' },
+      { text: 'Cheiro incomum', weight: 4, key: 'smell' },
+      { text: 'Manchas em louças', weight: 4, key: 'stains' },
+      { text: 'Sedimentos', weight: 4, key: 'sedimentsObs' },
+      { text: 'Nenhum', weight: 0, key: 'none' },
+    ],
+  },
+  {
+    id: 6,
+    text: 'Sua água já passou por análise específica?',
+    options: [
+      { text: 'Sim, recentemente', weight: 0, key: 'recent' },
+      { text: 'Sim, há bastante tempo', weight: 5, key: 'old' },
+      { text: 'Nunca', weight: 10, key: 'never' },
+      { text: 'Não sei', weight: 8, key: 'unknown' },
     ],
   },
 ];
@@ -222,84 +233,95 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
   // Score Calculation (normalized 0-100)
   const calculateRiskScore = () => {
     const totalWeight = Object.values(answers).reduce((sum, item) => sum + item.weight, 0);
-    // Maximum possible score weight is 115, minimum around 25. Let's map it smoothly:
-    const maxPossible = 115;
+    const maxPossible = 72; // Maximum potential weight sum
     const normalized = Math.round((totalWeight / maxPossible) * 100);
-    return Math.min(100, Math.max(15, normalized));
+    return Math.min(100, Math.max(0, normalized));
   };
 
   const getRiskClassification = (score: number) => {
-    if (score < 40) return 'Atenção Moderada (Baixo Risco Geral)';
-    if (score < 70) return 'Atenção Elevada (Médio Risco local)';
-    return 'Atenção Crítica (Alto Risco detectado)';
+    if (score < 30) return 'Baixa atenção indicativa';
+    if (score < 60) return 'Atenção moderada';
+    if (score < 80) return 'Atenção elevada';
+    return 'Alta atenção indicativa';
   };
 
   const getClassificationStyles = (score: number) => {
-    if (score < 40) {
+    if (score < 30) {
       return {
         text: 'text-emerald-600',
         bg: 'bg-emerald-50 border-emerald-100',
         badge: 'bg-emerald-500',
-        desc: 'Sua água apresenta um nível de risco moderado, mas necessita de ajuste de alcalinidade e filtragem preventiva para blindagem contra bactérias do encanamento.',
+        desc: 'Sua pontuação sugere baixa atenção indicativa. Manter a higienização das caixas d\'água em dia e um sistema básico de filtragem é suficiente para manter a qualidade.',
       };
     }
-    if (score < 70) {
+    if (score < 60) {
       return {
         text: 'text-amber-600',
         bg: 'bg-amber-50 border-amber-100',
         badge: 'bg-amber-500',
-        desc: 'Atenção Elevada. Seus hábitos e/ou percepções regionais apontam uma probabilidade relevante de ingestão crônica de microplásticos (se usa galões) ou excesso de cloro residual descompensado.',
+        desc: 'Atenção moderada. Recomenda-se avaliar as tubulações e o estado de conservação do reservatório doméstico. Sistemas com carvão ativado ajudam na retenção de cloro.',
+      };
+    }
+    if (score < 80) {
+      return {
+        text: 'text-orange-600',
+        bg: 'bg-orange-50 border-orange-100',
+        badge: 'bg-orange-500',
+        desc: 'Atenção elevada. Sinais como cloro perceptível ou tubulação antiga justificam cuidados com filtragem avançada para maior leveza e qualidade da água.',
       };
     }
     return {
       text: 'text-rose-600',
       bg: 'bg-rose-50 border-rose-100',
       badge: 'bg-rose-500',
-      desc: 'ALERTA CRÍTICO: Triagem de alto risco detectada. É recomendável suspender o uso de galões retornáveis de plástico desgastados ou água sem esterilização profunda por Ozônio para proteger a imunidade da sua família.',
+      desc: 'Alta atenção indicativa. Recomenda-se realizar uma verificação hidráulica local e considerar tecnologias completas de purificação e ozonização para as necessidades diárias.',
     };
   };
 
   // Dynamic risk parameters based on user responses
   const getIndicators = (score: number): IndicatorItem[] => {
-    const sourceKey = answers[1]?.key || 'tap';
-    const tasteKey = answers[2]?.key || 'rarely';
-    const symptomKey = answers[3]?.key || 'none';
+    const chlorineKey = answers[2]?.key; // 'never', 'sometimes', 'frequently'
+    const visualKey = answers[3]?.key; // 'crystalClear', 'sometimesCloudy', 'frequentlyCloudy', 'sediments'
 
     return [
       {
-        name: 'Cloro Residual Hidrolisado',
-        value: sourceKey === 'tap' ? 88 : sourceKey === 'simple_filter' ? 55 : 30,
-        status: sourceKey === 'tap' ? 'Atenção' : 'Aceitável',
-        description: 'Utilizado pelas concessionárias de esgoto para desinfecção, mas reage nas tubulações gerando subprodutos tóxicos se ingerido de forma contínua.',
-        color: sourceKey === 'tap' ? 'text-amber-500 bg-amber-50' : 'text-emerald-500 bg-emerald-50',
+        name: 'Cloro Residual',
+        value: chlorineKey === 'frequently' ? 90 : chlorineKey === 'sometimes' ? 50 : 10,
+        status: chlorineKey === 'frequently' ? 'Relatado' : chlorineKey === 'sometimes' ? 'Modesto' : 'Não Relatado',
+        description: chlorineKey === 'frequently' || chlorineKey === 'sometimes' 
+          ? 'Sinal relatado pelo usuário: percepção de cheiro ou gosto de cloro.'
+          : 'Dado regional não disponível.',
+        color: chlorineKey === 'frequently' ? 'text-amber-500 bg-amber-50' : 'text-emerald-500 bg-emerald-50',
       },
       {
         name: 'Presença de Microplásticos',
-        value: sourceKey === 'gallon' ? 94 : sourceKey === 'tap' ? 45 : 60,
-        status: sourceKey === 'gallon' ? 'Risco Potencial' : 'Aceitável',
-        description: 'Liberados por galões de plástico retornáveis sob calor ou higienização abrasiva. Partículas microscópicas acumulam-se no organismo humano.',
-        color: sourceKey === 'gallon' ? 'text-rose-500 bg-rose-50' : 'text-emerald-500 bg-emerald-50',
+        value: 0,
+        status: 'Não Inferido',
+        description: 'Não inferimos este parâmetro pelo CEP.',
+        color: 'text-gray-400 bg-gray-50',
       },
       {
         name: 'Equilíbrio de pH da Água',
-        value: sourceKey === 'well' ? 75 : tasteKey === 'often' ? 65 : 40,
-        status: tasteKey === 'often' ? 'Ajuste Recomendável' : 'Aceitável',
-        description: 'Águas de galões comerciais ou torneiras comuns costumam apresentar pH neutro ou ácido. A saúde preventiva exige hidratação mineral alcalina celular.',
-        color: tasteKey === 'often' ? 'text-amber-500 bg-amber-50' : 'text-emerald-500 bg-emerald-50',
+        value: 0,
+        status: 'Não Inferido',
+        description: 'Não é possível inferir o pH pelo CEP. Uma medição específica é necessária.',
+        color: 'text-gray-400 bg-gray-50',
       },
       {
-        name: 'Coliformes e Bactérias no Filtro',
-        value: sourceKey === 'simple_filter' && tasteKey === 'sometimes' ? 82 : symptomKey === 'stomach' || symptomKey === 'both' ? 75 : 35,
-        status: symptomKey === 'stomach' || symptomKey === 'both' ? 'Atenção' : 'Aceitável',
-        description: 'Tubulações subterrâneas antigas, caixas d\'água sem manutenção e refis de filtro vencidos acumulam bactérias. Esterilização por Ozônio atua eliminando 99.9%.',
-        color: symptomKey === 'stomach' || symptomKey === 'both' ? 'text-rose-500 bg-rose-50' : 'text-emerald-500 bg-emerald-50',
+        name: 'Coliformes e Bactérias',
+        value: 0,
+        status: 'Requer Análise',
+        description: 'Somente análise específica pode confirmar.',
+        color: 'text-gray-400 bg-gray-50',
       },
       {
         name: 'Turbidez e Sólidos Suspensos',
-        value: tasteKey === 'often' ? 85 : tasteKey === 'sometimes' ? 60 : 25,
-        status: tasteKey === 'often' ? 'Atenção' : 'Aceitável',
-        description: 'Obras no sistema público ou ferrugem interna das tubulações liberam micropartículas de ferro, argila e sílica suspensas na água invisivelmente.',
-        color: tasteKey === 'often' ? 'text-rose-500 bg-rose-50' : 'text-emerald-500 bg-emerald-50',
+        value: visualKey === 'frequentlyCloudy' || visualKey === 'sediments' ? 90 : visualKey === 'sometimesCloudy' ? 50 : 10,
+        status: visualKey === 'frequentlyCloudy' || visualKey === 'sediments' ? 'Relatado' : visualKey === 'sometimesCloudy' ? 'Modesto' : 'Não Relatado',
+        description: visualKey === 'frequentlyCloudy' || visualKey === 'sediments' || visualKey === 'sometimesCloudy'
+          ? 'Sinal relatado pelo usuário: episódios de alteração visual.'
+          : 'Dado regional não disponível.',
+        color: visualKey === 'frequentlyCloudy' || visualKey === 'sediments' ? 'text-amber-500 bg-amber-50' : 'text-emerald-500 bg-emerald-50',
       }
     ];
   };
@@ -316,7 +338,7 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
     });
 
     const locationStr = locationData ? `em ${locationData.city} - ${locationData.uf}` : '';
-    const message = `Olá! Realizei o Diagnóstico de Água online da AquaVita ${locationStr}.\n\n*Resultado do Diagnóstico:*\n- CEP: ${cep}\n- Score de Atenção: ${score}% (${classification})\n- Principal preocupação identificada: ${answers[5]?.text || 'Saúde da família'}\n- Desejo agendamento de análise física gratuita: ${wantsPhysicalAnalysis ? 'Sim' : 'Não'}\n\nGostaria de falar com um especialista e garantir meu bônus de Instalação e Entrega Premium!`;
+    const message = `Olá! Realizei o Diagnóstico Inteligente da Água online da AquaVita ${locationStr}.\n\n*Resultado do Diagnóstico:*\n- CEP: ${cep}\n- Score de Atenção: ${score}% (${classification})\n- Fonte de Água: ${answers[1]?.text || 'Não informada'}\n- Desejo agendamento de análise física gratuita: ${wantsPhysicalAnalysis ? 'Sim' : 'Não'}\n\nGostaria de falar com um especialista para entender melhor os resultados!`;
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/5554999997286?text=${encodedMessage}`, '_blank');
   };
@@ -334,13 +356,19 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <span className="inline-block py-1 px-3 rounded-full bg-sapphire/10 text-sapphire text-sm font-medium tracking-wide mb-4">
-            Triagem Regional de Pureza
+            DESCUBRA SEU PERFIL EM 60 SEGUNDOS
           </span>
           <h2 className="text-4xl md:text-5xl font-serif text-slate-800 mb-4">
-            Diagnóstico de Risco de Água por CEP
+            Diagnóstico Inteligente da Água
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Avalie instantaneamente os riscos de contaminação e os indicadores do abastecimento na sua localidade de forma rápida e intuitiva.
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-2">
+            O que a localização e os sinais da sua água podem revelar?
+          </p>
+          <p className="text-sm text-slate-500 max-w-2xl mx-auto">
+            Informe seu CEP e responda algumas perguntas rápidas para receber um Score Indicativo de Atenção.
+          </p>
+          <p className="text-xs text-amber-600 font-medium mt-3">
+            * Resultado indicativo baseado nas respostas fornecidas. Não confirma contaminação e não substitui análise laboratorial.
           </p>
         </div>
 
@@ -362,7 +390,7 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
                   </div>
                   <h3 className="text-2xl font-serif text-slate-800">Insira seu CEP para começar</h3>
                   <p className="text-sm text-slate-500 leading-relaxed">
-                    Identificamos sua rede de abastecimento regional e concessionárias locais para correlacionar os indicadores.
+                    Identificamos sua rede de abastecimento regional para melhor correlação dos dados.
                   </p>
                 </div>
 
@@ -372,7 +400,7 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
                       type="text"
                       value={cep}
                       onChange={handleCepChange}
-                      placeholder="Ex: 97970-000"
+                      placeholder="Ex: 97940-000"
                       className="w-full bg-white text-slate-800 text-lg font-semibold font-mono tracking-wider px-6 py-4.5 rounded-2xl border-2 border-slate-200 focus:border-sapphire focus:outline-none transition-all text-center placeholder:font-sans placeholder:text-slate-400"
                     />
                   </div>
@@ -391,7 +419,7 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
                       </>
                     ) : (
                       <>
-                        <span>Iniciar Triagem de Risco</span>
+                        <span>Iniciar Diagnóstico Inteligente</span>
                         <ChevronRight className="w-5 h-5" />
                       </>
                     )}
@@ -478,7 +506,7 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
                     O diagnóstico de abastecimento está concluído!
                   </h3>
                   <p className="text-sm text-slate-500 leading-relaxed">
-                    Insira seus dados abaixo para revelar o score de saúde preventiva personalizado e ter acesso aos parâmetros de purificação recomendados.
+                    Insira seus dados abaixo para revelar o seu score de atenção preventiva personalizado e ter acesso aos parâmetros de purificação recomendados.
                   </p>
                 </div>
 
@@ -515,7 +543,7 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
                         className="w-5 h-5 rounded text-sapphire accent-sapphire border-slate-300 focus:ring-sapphire cursor-pointer"
                       />
                       <span className="text-xs font-medium text-slate-600 leading-snug">
-                        Desejo solicitar o upgrade de <strong>Análise Física Gratuita</strong> da água na minha residência pelos técnicos certificados.
+                        Desejo solicitar o upgrade de <strong>Análise Física Gratuita</strong> da água na minha residência por equipe especializada.
                       </span>
                     </label>
                   </div>
@@ -525,7 +553,7 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
                       type="submit"
                       className="w-full py-3.5 px-6 rounded-xl bg-sapphire text-white font-medium text-base hover:bg-sapphire/90 transition-all flex items-center justify-center gap-2"
                     >
-                      <span>Gerar Relatório de Saúde</span>
+                      <span>Gerar Relatório de Atenção</span>
                       <ChevronRight className="w-5 h-5" />
                     </button>
                     <button
@@ -577,7 +605,7 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
                           cx="68"
                           cy="68"
                           r="56"
-                          stroke={calculateRiskScore() < 40 ? '#10B981' : calculateRiskScore() < 70 ? '#F59E0B' : '#EF4444'}
+                          stroke={calculateRiskScore() < 30 ? '#10B981' : calculateRiskScore() < 60 ? '#F59E0B' : calculateRiskScore() < 80 ? '#F97316' : '#EF4444'}
                           strokeWidth="8"
                           fill="transparent"
                           strokeDasharray={351.8}
@@ -590,7 +618,7 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
                           {calculateRiskScore()}%
                         </span>
                         <span className="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-1">
-                          Nível de Risco
+                          Atenção
                         </span>
                       </div>
                     </div>
@@ -606,7 +634,7 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
                 <div>
                   <h4 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4 flex items-center gap-2">
                     <Info className="w-4 h-4 text-sapphire" />
-                    Principais Parâmetros e Pontos Críticos Analisados:
+                    Parâmetros e Sinais Identificados na Triagem:
                   </h4>
                   <div className="space-y-4">
                     {getIndicators(calculateRiskScore()).map((ind, idx) => (
@@ -635,7 +663,7 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
                 <div className="bg-slate-50 border border-slate-200/80 p-4 rounded-xl flex gap-3 text-xs text-slate-400 leading-relaxed">
                   <Info className="w-4 h-4 shrink-0 text-slate-400 mt-0.5" />
                   <div>
-                    <strong>Nota Importante:</strong> Dado físico-químico municipal individual de Salvador das Missões não integrado em tempo real no banco nacional de triagem padrão. Os indicadores acima são uma projeção estatística calculada sobre o perfil de concessionárias da região de {locationData?.state || 'RS'} combinado às respostas da triagem. Este teste de triagem não substitui uma análise laboratorial física e química da água da sua torneira.
+                    <strong>Nota Importante:</strong> Dado físico-químico municipal individual de Salvador das Missões não integrado em tempo real no banco de dados nacional. Os indicadores acima são baseados estritamente na triagem indicativa de acordo com as respostas fornecidas pelo visitante. Este teste de triagem não substitui uma análise laboratorial ou física específica da água da sua torneira.
                   </div>
                 </div>
 
@@ -655,7 +683,7 @@ export default function WaterDiagnostic({ trackConversionEvent }: WaterDiagnosti
                     <div className="bg-sapphire/5 border border-sapphire/15 p-4 rounded-2xl flex items-start gap-3">
                       <CheckCircle2 className="w-5 h-5 text-sapphire shrink-0 mt-0.5" />
                       <p className="text-xs text-sapphire leading-relaxed">
-                        <strong>Upgrade Ativo:</strong> Nossos especialistas locais entrarão em contato no seu número WhatsApp para agendar a visita técnica e realizar a <strong>Análise de Pureza Física e de pH ao vivo</strong> na sua casa sem custo!
+                        <strong>Upgrade Ativo:</strong> Nossos especialistas locais entrarão em contato no seu número WhatsApp para agendar a visita técnica e realizar a <strong>Análise de pH e Pureza Física</strong> ao vivo na sua casa sem custo!
                       </p>
                     </div>
                   )}
