@@ -460,6 +460,120 @@ export default function App() {
         </div>
       </section>
 
+      {/* Selo de Garantia de Qualidade Section */}
+      <section className="py-16 px-6 bg-white border-b border-gray-100">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="inline-block py-1 px-3 rounded-full bg-emerald-50 text-emerald-600 text-xs font-semibold tracking-wider mb-3">
+              QUALIDADE E SEGURANÇA CERTIFICADA
+            </span>
+            <h2 className="text-3xl md:text-4xl font-serif text-slate-800 mb-4 font-bold">
+              Selo de Garantia de Qualidade AquaVita
+            </h2>
+            <p className="text-base text-slate-600 max-w-2xl mx-auto">
+              Nossos equipamentos atendem a rigorosos padrões de conformidade sanitária e desempenho técnico, garantindo máxima proteção e bem-estar para sua família.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Certificação 1 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className="bg-sand p-6 rounded-2xl border border-slate-100 flex flex-col justify-between shadow-soft hover:shadow-md transition-all"
+            >
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-sapphire/10 text-sapphire flex items-center justify-center mb-5">
+                  <Award className="w-6 h-6" />
+                </div>
+                <h3 className="font-serif font-bold text-lg text-slate-800 mb-2">Conformidade INMETRO</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Purificadores testados e aprovados sob rígidas normas de eficiência de retenção de partículas, redução de cloro livre e eficiência bacteriológica.
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-200/50 flex items-center gap-1.5 text-[10px] font-bold text-sapphire tracking-wider uppercase">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Eficiência Certificada</span>
+              </div>
+            </motion.div>
+
+            {/* Certificação 2 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className="bg-sand p-6 rounded-2xl border border-slate-100 flex flex-col justify-between shadow-soft hover:shadow-md transition-all"
+            >
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-5">
+                  <Droplets className="w-6 h-6" />
+                </div>
+                <h3 className="font-serif font-bold text-lg text-slate-800 mb-2">Materiais Atóxicos</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Construção livre de Bisfenol-A (BPA Free). Componentes internos de grau alimentício que não transferem odores ou substâncias químicas para a água.
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-200/50 flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 tracking-wider uppercase">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Composição 100% Segura</span>
+              </div>
+            </motion.div>
+
+            {/* Certificação 3 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className="bg-sand p-6 rounded-2xl border border-slate-100 flex flex-col justify-between shadow-soft hover:shadow-md transition-all"
+            >
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-5">
+                  <Microscope className="w-6 h-6" />
+                </div>
+                <h3 className="font-serif font-bold text-lg text-slate-800 mb-2">Ensaios Laboratoriais</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Validação técnica contínua e laudos microbiológicos que atestam a qualidade de purificação, atendendo às recomendações do Ministério da Saúde.
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-200/50 flex items-center gap-1.5 text-[10px] font-bold text-purple-600 tracking-wider uppercase">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Padrão Sanitário Oficial</span>
+              </div>
+            </motion.div>
+
+            {/* Certificação 4 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className="bg-sand p-6 rounded-2xl border border-slate-100 flex flex-col justify-between shadow-soft hover:shadow-md transition-all"
+            >
+              <div>
+                <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-5">
+                  <Wrench className="w-6 h-6" />
+                </div>
+                <h3 className="font-serif font-bold text-lg text-slate-800 mb-2">Garantia & Suporte Local</h3>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Equipe técnica presencial em Salvador das Missões - RS. Instalação profissional padrão e suporte completo de pós-venda garantidos diretamente.
+                </p>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-200/50 flex items-center gap-1.5 text-[10px] font-bold text-amber-600 tracking-wider uppercase">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Instalação Homologada</span>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* O Problema da Água (Atenção/Interesse) */}
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
